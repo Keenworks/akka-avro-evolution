@@ -14,7 +14,7 @@ class FactPersistenceSpec
   }
 
   "FactActor" should {
-    val statement = Statement("A bird is a mammal", (5.2, 4.5))
+    val statement = Statement("A bird is a mammal", TruthMatrix(5.2, 4.5))
 
     "add a FactEvent to the history and preserve history after restart" in {
       val factActor = system.actorOf(Props(new Fact), "factActor")

@@ -67,3 +67,41 @@ start with the first commit, and always refer to the README.
     A better serializer will help us transition across
     major scala versions. Proceed to the fourth commit.
     
+4.  We have rolled back to scala 2.11, and represented
+    the Statement class with an Avro schema. Notice
+    that the Statement case class is no longer defined 
+    in the Fact object. In fact, your IDE is probably
+    complaining about the nonexistent class.
+    
+    This is because the class will be auto-generated
+    as part of your compile step, from the schema 
+    definition file in `src/main/resources/avro`. 
+    
+    Unfortunately, this may not work with your 
+    default IntelliJ integration at this time of 
+    writing. Instead, invoke `sbt compile` from the 
+    shell to generate the Statement class. You should 
+    then to be able to navigate to the class definition
+    from the Fact actor.
+    
+    Note that we have also replaced the truthMatrix
+    tuple with a case class, as this is better
+    practice. Avro4s documents which types it 
+    supports in its
+    [README file](https://github.com/sksamuel/avro4s).
+        
+    We have also configured and created a serializer
+    that will use Avro when writing to and reading
+    from Cassandra. By default, Avro includes the
+    schema with each message, because Avro needs
+    to know which schema to use when de-serializing.
+    
+    Run the app by invoking `sbt run` from the shell. 
+    It will save the Avro-serialized Statement to 
+    Cassandra. You can also quit and restart the app
+    (while leaving Cassandra running) to see that it
+    successfully replays, as well. The logging 
+    statements indicate that each message is 417 bytes.
+    
+    Proceed to the fifth commit.
+    
