@@ -41,3 +41,29 @@ start with the first commit, and always refer to the README.
     Keep cassandra running.  Quit the app and proceed 
     to the third commit.
     
+3.  In this commit we have upgraded to scala 2.12,
+    the next "major version" of scala. Run the app.
+    
+    You will see errors. This is because Akka Persistence
+    is unable to replay the previous event from 
+    cassandra.
+    
+    It couldn't replay because the default java 
+    serializer treats scala 2.12 objects differently
+    than scala 2.11 objects - in this case, it had
+    trouble with the tuple of Doubles.
+    
+    Generally, one shouldn't use Tuples for 
+    persistence events anyway - case classes are
+    better. But the point is that java default 
+    serialization is not guaranteed to work across 
+    major scala versions, and other class structures
+    may have trouble as well.
+    
+    Quit the app and delete your cassandra keyspace:
+    
+    `cqlsh> drop keyspace akka`
+    
+    A better serializer will help us transition across
+    major scala versions. Proceed to the fourth commit.
+    
