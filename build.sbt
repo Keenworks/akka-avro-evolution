@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-persistence" % akkaVersion,
   "com.typesafe.akka" %% "akka-persistence-cassandra" % "0.30",
   "com.sksamuel.avro4s" %% "avro4s-core" % "1.8.1",
+  "commons-codec" % "commons-codec" % "1.11",
 
   "com.typesafe.akka" %% "akka-testkit" % akkaVersion,
   "org.scalatest" %% "scalatest" % "3.0.4" % "test",

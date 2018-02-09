@@ -125,3 +125,42 @@ start with the first commit, and always refer to the README.
     
     Proceed to the sixth commit.
     
+6.  Since our schema definitions are part of our 
+    codebase, we should be able to just send 
+    along a schema identifier with our messages, 
+    rather than the entire schema.
+    
+    We can accomplish this using two techniques.
+    First, Avro4s allows us to serialize a message
+    with a "binary" output type instead of a "data"
+    output type. The difference is that "binary"
+    does not include the schema.
+    
+    The second technique is to use Akka's 
+    SerializerWithStringManifest. Each serialized
+    message will include a String "manifest"; a 
+    String description of how the class was serialized.
+    
+    For our purposes, the manifest should be a schema 
+    identifier. The schema identifier can be a manually 
+    specified number, or it can be generated from the
+    schema itself using 
+    [fingerprinting](http://avro.apache.org/docs/1.7.2/spec.html#Schema+Fingerprints)
+    such as Rabin (for less than a million schema
+    versions), MD5, or SHA-256.
+
+    For our example, we are using MD5 since libraries
+    are easily available.
+    
+    Run the app. Quit the app. Run the app 
+    again. The app was able to serialize and 
+    deserialize the "schema-less" messages. You'll
+    see that the messages are now only 47 bytes 
+    (plus 32 bytes for the identifier) instead of 
+    417 bytes, a significant savings.
+    
+    This was all done without using schema evolution.
+    But what if we want to change the definition of the
+    Statement itself?  Quit the app and proceed to the 
+    seventh commit.
+    
