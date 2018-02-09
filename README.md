@@ -105,3 +105,23 @@ start with the first commit, and always refer to the README.
     
     Proceed to the fifth commit.
     
+5.  We've upgraded to scala 2.12. Run the app. It should
+    run normally. This means that using Avro, the app was 
+    able to replay and deserialize the previous 
+    Statement(s) across major scala versions. Feel free
+    to quit and run the app multiple times so that multiple
+    messages are written to cassandra.
+    
+    This was accomplished using avro's default settings
+    of sending the schema with every message. But what 
+    if we don't want to send the schema with every 
+    message?
+    
+    You should have at least one event stored in 
+    cassandra. Quit the app. Empty out your 
+    cassandra keyspace again:
+    
+    `cqlsh> drop keyspace akka`
+    
+    Proceed to the sixth commit.
+    
