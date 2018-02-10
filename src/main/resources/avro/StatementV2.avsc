@@ -1,0 +1,26 @@
+{
+  "type" : "record",
+  "name" : "Statement",
+  "namespace" : "com.keenworks.example.akka.avro.evolution.actor",
+  "fields" : [ {
+    "name" : "statement",
+    "type" : "string"
+  }, {
+    "name" : "truthMatrix",
+    "type" : {
+      "type" : "record",
+      "name" : "TruthMatrix",
+      "fields" : [ {
+        "name" : "accuracy",
+        "type" : "double"
+      }, {
+        "name" : "popularity",
+        "type" : "double"
+      } ]
+    }
+  }, {
+    "name" : "truth",
+    "type" : "boolean",
+    "default" : false
+  } ]
+}

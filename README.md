@@ -164,3 +164,51 @@ start with the first commit, and always refer to the README.
     Statement itself?  Quit the app and proceed to the 
     seventh commit.
     
+7.  We have added a field to the Statement and 
+    created a new version of the schema document.
+    The schema requires a default value for the
+    new field to avoid errors when reading old
+    values from cassandra.
+    
+    We put the active schema in `src/main/avro`
+    because that is the schema that will be used
+    to generate the class at compile time.
+    
+    The old schema is put in `src/main/avroHistory`
+    because we don't want to generate the class, 
+    but still want the schema to be able to read
+    older versions of messages.
+    
+    Since the class is altered, we also altered
+    our usage of it in our Fact actor and test.
+    We also added some logging to be able to 
+    verify the class structure.
+    
+    Finally, we have updated the serializer so that 
+    it supports schema evolution.
+    
+    The serializer will always write to cassandra
+    using the most recent schema, but when reading
+    from cassandra, it needs to know the different
+    possible schemas.
+    
+    A map from fingerprint to schema supplies the
+    different schemas, and allows the `fromBinary`
+    method to recognize what schema a message
+    was encoded with.
+    
+    Avro works by specifying both a writer and
+    a reader schema, which is what it allows it
+    to translate between any combination of versions.
+    In our case, we always want to translate to the
+    most recent "active" version of the Statement
+    class.
+    
+    Stop and restart the app at least once more,
+    to add more "second version" facts to 
+    cassandra.
+    
+    Let's add in a third version, just to test
+    it further. Stop the app, keep cassandra 
+    running, and proceed to the eighth commit.
+    

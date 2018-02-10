@@ -8,14 +8,16 @@ class Fact extends PersistentActor with ActorLogging {
   override def persistenceId: String = "example-fact"
 
   override def receiveRecover: Receive = {
-    case evt: Statement => updateFactHistory(evt)
+    case evt: Statement =>
+      log.info(s"recovering Statement: {}", evt.toString)
+      updateFactHistory(evt)
     case RecoveryCompleted => log.info(s"Recovery completed, events size {}", factHistory.size)
   }
 
   override def receiveCommand: Receive = {
     case RegisterFact(statement) =>
       log.info(s"Got a RegisterFact command: {}", statement)
-      persist(Statement(statement, TruthMatrix(5.2, 4.5)))(updateFactHistory)
+      persist(Statement(statement, TruthMatrix(5.2, 4.5), truth = false))(updateFactHistory)
     case GetFactHistory =>
       log.info("Got a GetFactHistory command, sending event size of: " + factHistory.size)
       sender() ! factHistory.events
