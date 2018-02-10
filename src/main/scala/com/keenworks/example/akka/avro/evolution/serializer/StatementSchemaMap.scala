@@ -9,9 +9,10 @@ import org.apache.commons.codec.digest.DigestUtils
 import scala.io.Source
 
 object StatementSchemaMap extends StrictLogging {
-  final val activeSchema: URL = getClass.getResource("/avro/StatementV2.avsc")
+  final val activeSchema: URL = getClass.getResource("/avro/StatementV3.avsc")
   final val schemaHistory = List(
-    "/avroHistory/StatementV1.avsc"
+    "/avroHistory/StatementV1.avsc",
+    "/avroHistory/StatementV2.avsc"
   )
 
   final val activeSchemaFingerprint: String = getMD5FromUrl(activeSchema)

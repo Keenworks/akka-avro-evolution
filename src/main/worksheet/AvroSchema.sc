@@ -10,7 +10,7 @@ case class TruthMatrix(
 case class Statement(
                       statement: String,
                       truthMatrix: TruthMatrix,
-                      truth: Boolean = false
+                      truth: Option[Boolean] = Some(false)
                     )
 
 AvroSchema[Statement].toString(true)

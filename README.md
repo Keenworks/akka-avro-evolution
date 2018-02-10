@@ -212,3 +212,31 @@ start with the first commit, and always refer to the README.
     it further. Stop the app, keep cassandra 
     running, and proceed to the eighth commit.
     
+8.  As before, we've added another version of the
+    Statement - the "truth" field is now an
+    `Option[Boolean]` instead of a `Boolean`.
+    The system is able to replay Statement versions 
+    1 and 2, and evolve them to version 3.
+    
+### Assumptions, Findings, and Conclusion
+
+The messages are used only by this system. Therefore,
+we do not need a schema registry. This also means we
+don't have to worry about "forward compatibility", 
+where another system might be receiving version 3
+while only understanding version 1.
+
+While Avro is flexible, it does not necessarily 
+support every type/class structure. At this time
+of writing, Avro4s has trouble with some forms of sealed
+traits, tuples, and probably other structures. This 
+reinforces that event models should be relatively
+simple and static - there should be less reason
+to change an event model than there is to change
+the actor itself.
+
+This repo was prepared tutorial-style because I don't
+know how to write unit tests that do things like 
+swap out the scala major version, or change the actual
+definition of a case class. If you have brainstorms
+on this, please file an issue and discuss.
